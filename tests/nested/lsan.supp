@@ -1,0 +1,8 @@
+# Third-party one-time allocations (font caches, type system) that are never freed by design.
+leak:libfontconfig
+leak:libpango
+leak:libglib
+leak:libgobject
+leak:libharfbuzz
+leak:libcairo
+leak:libpixman

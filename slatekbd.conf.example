@@ -1,0 +1,32 @@
+# slatekbd sample configuration
+# Copy to ~/.config/slatekbd/config (or $XDG_CONFIG_HOME/slatekbd/config).
+# Format: key = value, one per line; '#' starts a comment. Settings changed in the
+# on-screen Settings view are written back to this file (unknown keys are kept).
+
+mode             = popup        # popup (windows resize above the keyboard) | overlay (floats over windows)
+auto             = 1            # show/hide automatically when a text field gets/loses focus (input-method-v2)
+font             = Sans         # Pango font family
+font_scale       = 1.0          # text size, 0.6 .. 2.0
+key_shape        = rect         # rect (stretch to full width) | square (1u keys are square, centred)
+key_radius       = 6            # corner radius in logical px, 0 .. 16
+preview          = 1            # key press popup bubble
+modifiers        = toggle       # toggle: tap = one-shot, double-tap = lock, tap again = off
+                                # hold:   active only while a finger is on the key (multi-touch)
+shift_caps       = 1            # double-tap Shift toggles Caps Lock
+split            = 0            # split keyboard: left half on the left edge, right half on the right edge
+split_gap        = 30           # empty middle, percent of the width (10 .. 60)
+split_portrait   = 0            # also split in portrait orientation
+height_landscape = 280          # keyboard height in logical px (150 .. 600)
+height_portrait  = 340
+theme            = dark         # dark | light
+repeat           = 1            # key repeat
+repeat_delay     = 400          # ms before repeating
+repeat_rate      = 25           # repeats per second
+auto_numpad      = 1            # numeric text fields open the ?123 page
+output           = auto         # auto (internal eDP panel) | connector name, e.g. eDP-1, DP-3
+lockscreen       = auto         # auto | always | off (visibility while the session is locked)
+lock_rule        = 1            # add the Hyprland above_lock layer rule at runtime (no files are edited)
+rotate_cmd       =              # empty = built-in hyprctl chain; %o = output, %t = transform 0..3
+# rotate_cmd = echo %t > $XDG_RUNTIME_DIR/hypr-orientation && hyprctl reload
+start            = auto         # auto | shown | hidden
+lock_button      = 1            # lock/login screen: keyboard hidden behind a round button (0 = always open)

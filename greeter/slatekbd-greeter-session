@@ -1,0 +1,34 @@
+#!/bin/sh
+# greetd greeter session: noctalia-greeter in a minimal Hyprland with the slatekbd keyboard.
+# /etc/greetd/config.toml:  command = "/usr/local/bin/slatekbd-greeter-session"
+# Revert: command = "/usr/bin/noctalia-greeter-session"
+# Logs go to the journal (journalctl -t slatekbd-greeter) when systemd-cat exists.
+#
+# Security notes:
+# - Hyprland is started directly, NOT through start-hyprland: its watchdog restarts a
+#   crashed Hyprland in safe mode, which ignores our config and enables default binds
+#   (SUPER+R runner, SUPER+Q terminal) - a pre-login shell. Without the watchdog a crash
+#   just ends this session and greetd starts a fresh greeter.
+# - If our config is missing or does not verify, fall back to the stock greeter.
+set -u
+CONFIG="${SLATEKBD_GREETER_CONFIG:-/usr/local/share/slatekbd/greeter-hyprland.lua}"
+STOCK=/usr/bin/noctalia-greeter-session
+
+if [ ! -r "$CONFIG" ] || ! command -v Hyprland >/dev/null 2>&1 \
+   || ! Hyprland --verify-config -c "$CONFIG" >/dev/null 2>&1; then
+    exec "$STOCK" "$@"
+fi
+
+# Private, unpredictable runtime dir (mktemp creates it 0700, owned by us).
+XDG_RUNTIME_DIR="$(mktemp -d /tmp/slatekbd-greeter-XXXXXXXX)" || exec "$STOCK" "$@"
+export XDG_RUNTIME_DIR
+unset WAYLAND_DISPLAY HYPRLAND_INSTANCE_SIGNATURE
+
+exec >/dev/null 2>&1
+LOG=""
+command -v systemd-cat >/dev/null 2>&1 && LOG="systemd-cat -t slatekbd-greeter"
+
+if command -v dbus-run-session >/dev/null 2>&1; then
+    exec $LOG dbus-run-session -- Hyprland -c "$CONFIG"
+fi
+exec $LOG Hyprland -c "$CONFIG"
