@@ -383,6 +383,10 @@ key is documented in
 - [`TECHNICAL_DOCUMENTATION.md`](TECHNICAL_DOCUMENTATION.md): architecture, how to
   change things, and tests.
 - [`DESIGN.md`](DESIGN.md): the original design spec.
+- [`CHANGELOG.md`](CHANGELOG.md): release history.
+
+Releasing (GitHub tag + AUR package) and the list of known open work are in
+TECHNICAL_DOCUMENTATION.md §8 and §9.
 
 ### Source layout
 
